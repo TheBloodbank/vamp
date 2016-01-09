@@ -37,7 +37,7 @@ setup(
         'Topic :: System :: Archiving :: Packaging',
         'Topic :: Utilities'
     ],
-    keywords='git github development circle circleci',
+    keywords='git github package management',
 
     packages=find_packages('.'),
     install_requires=[
