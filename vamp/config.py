@@ -23,3 +23,5 @@ def load_config():
     if save_config:
         with open(config_file, 'w') as cf:
             config.write(cf)
+
+    return config
