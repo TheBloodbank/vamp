@@ -34,6 +34,7 @@ setup(
         'License :: OSI Approved :: ' + \
                 'GNU General Public License v2 or later (GPLv2+)',
         'Topic :: Software Development :: Version Control',
+        'Topic :: System :: Archiving :: Packaging',
         'Topic :: Utilities'
     ],
     keywords='git github development circle circleci',
