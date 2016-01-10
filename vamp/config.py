@@ -17,7 +17,6 @@ class Config:
         self.config.read(self.config_file)
         save_config = False
 
-        # Sensible defaults
         if 'paths' not in self.config:
             self.set_defaults()
             save_config = True
@@ -26,6 +25,7 @@ class Config:
             self.save()
 
     def set_defaults(self):
+        """Set some sensible defaults."""
         self.config['paths'] = {
             'install' : get_install_path(),
             'bin' : get_bin_path()
