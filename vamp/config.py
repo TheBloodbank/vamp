@@ -12,22 +12,26 @@ class Config:
     def __init__(self):
         self.__dict__ = self.__borg_state
 
-    def load_config(self):
-        config = configparser.ConfigParser()
-        config_file = get_config_file()
-        config.read(config_file)
+        self.config = configparser.ConfigParser()
+        self.config_file = get_config_file()
+        self.config.read(self.config_file)
         save_config = False
 
         # Sensible defaults
-        if 'paths' not in config:
-            config['paths'] = {
-                'install' : get_install_path(),
-                'bin' : get_bin_path()
-                }
+        if 'paths' not in self.config:
+            self.set_defaults()
             save_config = True
 
         if save_config:
-            with open(config_file, 'w') as cf:
-                config.write(cf)
+            self.save()
 
-        return config
+    def set_defaults(self):
+        self.config['paths'] = {
+            'install' : get_install_path(),
+            'bin' : get_bin_path()
+            }
+
+    def save(self):
+        """Save the config file."""
+        with open(self.config_file, 'w') as cf:
+            self.config.write(cf)
