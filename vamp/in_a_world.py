@@ -1,8 +1,25 @@
 """Utility module for a world gone mad..."""
 
-
 import os
 from os.path import expanduser
+import subprocess
+
+# Initialize the pager stuff. Note, this will probably only work on *nixes
+def get_max_lines():
+    max_lines = None
+    try:
+        max_lines = subprocess.check_output(['tput', 'lines'])
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        max_lines = os.environ.get('LINES', 30)
+    return int(max_lines)
+
+def get_max_columns():
+    max_columns = None
+    try:
+        max_columns = subprocess.check_output(['tput', 'cols'])
+    except (subprocess.CalledProcessError, FileNotFoundError):
+        max_columns = os.environ.get('COLUMNS', 70)
+    return int(max_columns)
 
 def ensure_path(path):
     """Ensures a path exists"""

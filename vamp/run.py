@@ -1,28 +1,11 @@
 #!/usr/bin/env python
 
 from __future__ import print_function
-import os
 import sys
 import argparse
-import subprocess
 import textwrap
 
-# Initialize the pager stuff. Note, this will probably only work on *nixes
-def get_max_lines():
-    max_lines = None
-    try:
-        max_lines = subprocess.check_output(['tput', 'lines'])
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        max_lines = os.environ.get('LINES', 30)
-    return int(max_lines)
-
-def get_max_columns():
-    max_columns = None
-    try:
-        max_columns = subprocess.check_output(['tput', 'cols'])
-    except (subprocess.CalledProcessError, FileNotFoundError):
-        max_columns = os.environ.get('COLUMNS', 70)
-    return int(max_columns)
+from vamp.in_a_world import get_max_lines, get_max_columns
 
 MAX_PAGE_LINES = get_max_lines()
 MAX_PAGE_WIDTH = get_max_columns()
