@@ -82,6 +82,7 @@ def command_help():
         desc = textwrap.wrap(commands[args.subcommand]['desc'], desc_len)
         for i in range(1, len(desc)):
             pager("   {0}".format(desc[i]))
+        # ERE I AM JH, display help
     else:
         parser.print_usage()
 
