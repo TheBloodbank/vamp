@@ -3,8 +3,8 @@ try:
 except ImportError:
     import ConfigParser as configparser
 
-from vamp.in_a_world import get_config_file, get_install_path, \
-        get_bin_path
+from vamp.in_a_world import get_config_file, get_default_install_path, \
+        get_default_bin_path, get_default_bank_path
 
 class Config:
     __borg_state = {}
@@ -27,8 +27,9 @@ class Config:
     def set_defaults(self):
         """Set some sensible defaults."""
         self.config['paths'] = {
-            'install' : get_install_path(),
-            'bin' : get_bin_path()
+            'install' : get_default_install_path(),
+            'bin' : get_default_bin_path(),
+            'bank' : get_default_bank_path()
             }
 
     def save(self):
