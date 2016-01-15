@@ -1,3 +1,4 @@
+import sys
 try:
     import configparser
 except ImportError:
@@ -31,6 +32,31 @@ class Config:
             'bin' : get_default_bin_path(),
             'bank' : get_default_bank_path()
             }
+        sef.config['urls'] = {
+            'bloodbank' = 'https://github.com/TheBloodbank/bank.git'
+            }
+
+    def get(self, section, setting, hard_fail=True):
+        """Handles the retrieval and error reporting of config settings.
+
+        If 'hard_fail' is True (default), then we require the setting be
+        present and will exit on error.
+
+        If 'hard_fail' is False, and we cannot find the section or setting,
+        we return a None."""
+        if section not in self.config:
+            if hard_fail:
+                print("Error! No '{0}' section in config file!".format(section))
+                sys.exit(1)
+            else:
+                return None
+        if setting not in self.config[section] and hard_fail:
+            if hard_fail:
+                print("Error! Setting '{0}' not found in section '{1}' in" + \
+                    " the config file!".format(setting, section))
+                sys.exit(1)
+            else:
+                return None
 
     def save(self):
         """Save the config file."""
