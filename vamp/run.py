@@ -26,7 +26,7 @@ except ImportError:
         finally:
             termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
-from vamp.in_a_world import get_max_lines, get_max_columns
+from vamp.in_a_world import get_max_lines, get_max_columns, ensure_path
 from vamp.config import Config
 
 # UI setup
@@ -85,7 +85,8 @@ def command_init():
     """Initializes various systems ('all' if none specified)"""
     sub_systems = {
             'config' : False,
-            'bank' : False
+            'bank' : False,
+            'paths' : False
         }
 
     if args.subcommand in sub_systems:
@@ -99,7 +100,7 @@ def command_init():
         sys.exit(1)
 
     print("Initializing vamp...\n")
-    # Config comes first
+
     if sub_systems['config']:
         print("> Initializing configuration file...")
         c = Config()
@@ -107,6 +108,19 @@ def command_init():
             print(">> Forcing default values for configuration file...")
             c.set_defaults()
             c.save()
+
+    if sub_systems['paths']:
+        print("> Initializing system paths...")
+        c = Config()
+        if 'paths' not in c.config:
+            print("Error! Configuration file is missing 'paths' section!")
+            print("Did you forget to init the config sub-system?")
+            sys.exit(1)
+
+        for p in c.config['paths']:
+            print(">> Initializing '{0}'...".format(p))
+            ensure_path(c.config['paths'][p])
+
     if sub_systems['bank']:
         print("> Initializing blood bank...")
 
@@ -154,7 +168,13 @@ commands = {
                 'all    : Initialize all sub-systems. This is the ' + \
                         'default behavior if no sub-command is specified',
                 'config : Initialize/prepare a default configuration',
-                'bank   : Initialize the bank'
+                'paths  : Initializes the paths used by vamp',
+                'bank   : Initialize the bank',
+                ''
+                'The default order to these sub-commands is:',
+                '   1) config',
+                '   2) paths',
+                '   3) bank'
                 ]
         },
         'help' : {
