@@ -28,6 +28,7 @@ except ImportError:
 
 from vamp.in_a_world import get_max_lines, get_max_columns, ensure_path
 from vamp.config import Config
+from vamp.git import check_git
 
 # UI setup
 MAX_PAGE_LINES = get_max_lines()
@@ -193,7 +194,12 @@ commands = {
 # Main entry point
 def run():
     if args.command in commands:
-        commands[args.command]['method']()
+        if check_git():
+            commands[args.command]['method']()
+        else:
+            print("Error! Git executable not found!")
+            print("Please ensure you have git installed!")
+            sys.exit(1)
     else:
         print("Valid command required!")
         parser.print_usage()
