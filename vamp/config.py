@@ -32,8 +32,11 @@ class Config:
             'bin' : get_default_bin_path(),
             'bank' : get_default_bank_path()
             }
-        sef.config['urls'] = {
-            'bloodbank' = 'https://github.com/TheBloodbank/bank.git'
+        self.config['urls'] = {
+            'bloodbank' : 'https://github.com/TheBloodbank/bank.git'
+            }
+        self.config['globals'] = {
+            'verbose' : False
             }
 
     def get(self, section, setting, hard_fail=True):
