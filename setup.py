@@ -41,7 +41,7 @@ setup(
 
     packages=find_packages('.'),
     install_requires=[
-        'argparse', 'colorama'
+        'argparse', 'colorama', 'requests'
     ],
     entry_points={
         'console_scripts': [
