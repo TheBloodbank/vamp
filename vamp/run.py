@@ -68,7 +68,9 @@ def page_multiline(line='', indent=0):
             pager(' ' * indent + l)
 
 # Parser setup
-parser = argparse.ArgumentParser()
+parser = argparse.ArgumentParser(
+        description="The bleeding edge package manager",
+        epilog="The command 'list' will list available commands")
 parser.add_argument("command", help="The command to run", nargs="?")
 parser.add_argument("subcommand", help="Optional sub-command.", nargs="?")
 parser.add_argument("-np", "--no-page", help="Disable paging", \
@@ -77,8 +79,15 @@ args = parser.parse_args()
 
 # Command Methods
 def command_init():
-    """Foo"""
-    pass
+    """Initializes various systems ('all' if none specified)"""
+    sub_systems = {
+            'all' : False,
+            'config' : False,
+            'bank' : False
+        }
+
+    if args.subcommand in sub_systems:
+        pass
 
 def command_list():
     """Display the commands"""
