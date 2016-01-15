@@ -193,13 +193,13 @@ commands = {
 
 # Main entry point
 def run():
+    if not check_git():
+        print("Error! Git executable not found!")
+        print("Please ensure you have git installed!")
+        sys.exit(1)
+
     if args.command in commands:
-        if check_git():
-            commands[args.command]['method']()
-        else:
-            print("Error! Git executable not found!")
-            print("Please ensure you have git installed!")
-            sys.exit(1)
+        commands[args.command]['method']()
     else:
         print("Valid command required!")
         parser.print_usage()
