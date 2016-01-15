@@ -25,6 +25,11 @@ class Bank:
             url = self.c.get('urls', 'bloodbank')
             clone_to = '{0}/.bloodbank'.format(self.c.get('paths', 'bank'))
         else:
-            # Look for a github project FIXME
-            print("NOT YET DONE! FIXME!)
-            raise NotImplementedError
+            url = self.g.get_url(bank)
+            clone_to = '{0}/{1}'.format(self.c.get('paths', 'bank'))
+
+        if url is None:
+            print("Error! No valid URL found for '{0}'!".format(bank))
+            sys.exit(1)
+
+        self.g.clone(url, clone_to)
