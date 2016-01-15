@@ -81,13 +81,19 @@ args = parser.parse_args()
 def command_init():
     """Initializes various systems ('all' if none specified)"""
     sub_systems = {
-            'all' : False,
             'config' : False,
             'bank' : False
         }
 
     if args.subcommand in sub_systems:
-        pass
+        sub_systems[args.subcommand] = True
+    elif args.subcommand is None:
+        for k in sub_systems:
+            sub_systems[k] = True
+    else:
+        print("Error! Invalid sub-system!")
+        print("See help for 'init' to see valid sub-sustems!")
+        sys.exit(1)
 
 def command_list():
     """Display the commands"""
@@ -130,10 +136,10 @@ commands = {
                 'Sub-commands:',
                 '-------------',
                 '',
-                'all : Initialize all sub-systems. This is the ' + \
+                'all    : Initialize all sub-systems. This is the ' + \
                         'default behavior if no sub-command is specified',
                 'config : Initialize/prepare a default configuration',
-                'bank : Initialize the bank'
+                'bank   : Initialize the bank'
                 ]
         },
         'help' : {
