@@ -170,7 +170,7 @@ commands = {
                 'config : Initialize/prepare a default configuration',
                 'paths  : Initializes the paths used by vamp',
                 'bank   : Initialize the bank',
-                ''
+                '',
                 'The default order to these sub-commands is:',
                 '   1) config',
                 '   2) paths',
