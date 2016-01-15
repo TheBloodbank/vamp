@@ -27,6 +27,7 @@ except ImportError:
             termios.tcsetattr(fd, termios.TCSADRAIN, old)
 
 from vamp.in_a_world import get_max_lines, get_max_columns
+from vamp.config import Config
 
 # UI setup
 MAX_PAGE_LINES = get_max_lines()
@@ -75,6 +76,8 @@ parser.add_argument("command", help="The command to run", nargs="?")
 parser.add_argument("subcommand", help="Optional sub-command.", nargs="?")
 parser.add_argument("-np", "--no-page", help="Disable paging", \
     action="store_true")
+parser.add_argument('-f', '--force', help='Force an action', \
+    action="store_true")
 args = parser.parse_args()
 
 # Command Methods
@@ -94,6 +97,18 @@ def command_init():
         print("Error! Invalid sub-system!")
         print("See help for 'init' to see valid sub-sustems!")
         sys.exit(1)
+
+    print("Initializing vamp...\n")
+    # Config comes first
+    if sub_systems['config']:
+        print("> Initializing configuration file...")
+        c = Config()
+        if args.force:
+            print(">> Forcing default values for configuration file...")
+            c.set_defaults()
+            c.save()
+    if sub_systems['bank']:
+        print("> Initializing blood bank...")
 
 def command_list():
     """Display the commands"""
