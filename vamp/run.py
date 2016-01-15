@@ -29,6 +29,7 @@ except ImportError:
 from vamp.in_a_world import get_max_lines, get_max_columns, ensure_path
 from vamp.config import Config
 from vamp.git import check_git
+from vamp.bank import Bank
 
 # UI setup
 MAX_PAGE_LINES = get_max_lines()
@@ -124,6 +125,8 @@ def command_init():
 
     if sub_systems['bank']:
         print("> Initializing blood bank...")
+        b = Bank()
+        b.init_bank()
 
 def command_list():
     """Display the commands"""
