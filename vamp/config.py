@@ -42,6 +42,7 @@ class Config:
                 'globals' : {
                     'verbose' : False
                     }
+                }
 
     def get(self, section, setting, hard_fail=True):
         """Handles the retrieval and error reporting of config settings.
