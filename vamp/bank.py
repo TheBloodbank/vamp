@@ -63,7 +63,7 @@ class Bank:
                 self.init_bank(package)
                 filename = "{0}/{1}/.bank/{2}.py".format(self.c.get('paths',
                     'bank', True), self.GITHUBBANK, appname)
-                is os.path.isfile(filename):
+                if os.path.isfile(filename):
                     return kitten_importer(filename, 'bloodbank.{0}'.format(
                         appname))
         return None
