@@ -130,7 +130,10 @@ def command_init():
 
 def command_install():
     """Install a given package"""
-    pass
+    if args.option is None:
+        print("Error! No package specified!")
+        print("See help for 'install'!")
+        sys.exit(1)
 
 def command_list():
     """Display the commands"""
