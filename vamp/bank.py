@@ -1,7 +1,10 @@
 from __future__ import print_function
 import sys
+import os.path
+import shutil
 from vamp.config import Config
 from vamp.git import Git
+from vamp.run import pager
 
 class Bank:
     __borg_state = {}
@@ -12,7 +15,7 @@ class Bank:
         self.c = Config()
         self.g = Git()
 
-    def init_bank(self, bank=None):
+    def init_bank(self, bank=None, force=False):
         """Initializes a bank.
 
         'bank' should be a string of the format 'user/repo'.
@@ -32,4 +35,13 @@ class Bank:
             print("Error! No valid URL found for '{0}'!".format(bank))
             sys.exit(1)
 
-        self.g.clone(url, clone_to)
+        if os.path.isdir(clone_to):
+            if force:
+                pager("!! Bank directory exists, but overwriting because " + \
+                        "of --force")
+                shutil.rmtree(clone_to)
+                self.g.clone(url, clone_to)
+            else:
+                pager("!! Bank directory exists, using existing")
+        else:
+            self.g.clone(url, clone_to)

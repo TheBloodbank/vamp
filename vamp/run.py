@@ -126,7 +126,7 @@ def command_init():
     if sub_systems['bank']:
         print("> Initializing blood bank...")
         b = Bank()
-        b.init_bank()
+        b.init_bank(bank=None, force=args.force)
 
 def command_list():
     """Display the commands"""
