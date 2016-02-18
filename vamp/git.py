@@ -44,7 +44,8 @@ class Git:
         'url' can be any URL that Git supports.
         """
         try:
-            subprocess.check_output(['git', 'ls-remote', url])
+            subprocess.check_output(['git', 'ls-remote', url],
+                    stderr=subprocess.STDOUT)
             return True
         except CalledProcessError as e:
             if e.returncode != 128:
