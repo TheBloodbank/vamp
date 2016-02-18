@@ -30,6 +30,7 @@ from vamp.in_a_world import get_max_lines, get_max_columns, ensure_path
 from vamp.config import Config
 from vamp.git import check_git
 from vamp.bank import Bank
+from vamp.package import PackageHandler
 
 # UI setup
 MAX_PAGE_LINES = get_max_lines()
@@ -134,6 +135,8 @@ def command_install():
         print("Error! No package specified!")
         print("See help for 'install'!")
         sys.exit(1)
+    ph = PackageHandler()
+    ph.install(args.option)
 
 def command_list():
     """Display the commands"""
