@@ -42,7 +42,7 @@ def get_config_file():
 
     ensure_path(my_config)
 
-    return "{0}/config.ini".format(my_config)
+    return "{0}/config.json".format(my_config)
 
 def get_default_install_path():
     """Returns the system-specific default path for installation."""
