@@ -4,26 +4,12 @@ import os.path
 import shutil
 from vamp.config import Config
 from vamp.git import Git
-
-# Various package types
-class BloodbankPackage:
-    def __init__(self, name):
-        self.name = name
-
-    def __repr__(self):
-        return "<Bloodbank Package '{0}'>".format(self.name)
-
-class GitRepoPackage:
-    def __init__(self, name, url, cloned=False):
-        self.name = name
-        self.url = url
-        self.already_cloned = cloned
-
-    def __repr__(self):
-        return "<Git Repo Package '{0}:{1}'>".format(self.name, self.url)
+from vamp.kittening_importer import kitten_importer
 
 class Bank:
     __borg_state = {}
+    BLOODBANK = '.bloodbank'
+    GITHUBBANK = '.github'
 
     def __init__(self):
         self.__dict__ = self.__borg_state
@@ -42,10 +28,12 @@ class Bank:
         url = None
         if bank is None:
             url = self.c.get('urls', 'bloodbank')
-            clone_to = '{0}/.bloodbank'.format(self.c.get('paths', 'bank'))
+            clone_to = '{0}/{1}'.format(self.c.get('paths', 'bank'),
+                    self.BLOODBANK)
         else:
             url = self.g.get_url(bank)
-            clone_to = '{0}/{1}'.format(self.c.get('paths', 'bank'))
+            clone_to = '{0}/{1}/{2}'.format(self.c.get('paths', 'bank'),
+                    self.GITHUBBANK, bank)
 
         if url is None:
             print("Error! No valid URL found for '{0}'!".format(bank))
@@ -62,28 +50,20 @@ class Bank:
         else:
             self.g.clone(url, clone_to)
 
-    def identify_package(self, package):
-        """Given a package name, identify what type of package this is."""
-        filename = '{0}/.bloodbank/.bank/{1}.py'.format(self.c.get('paths',
-            'bank', True), package)
+    def get_package(self, package):
+        """Given a package name, import the package object and return it."""
+        # We have to run through a number of sources to get the package
+        filename = '{0}/{1}/.bank/{2}.py'.format(self.c.get('paths',
+            'bank', True), self.BLOODBANK, package)
         if os.path.isfile(filename):
-            return BloodbankPackage(package)
+            return kitten_importer(filename, 'bloodbank.{0}'.format(package))
         else:
-            if self.g.is_repo(package):
-                return GitRepoPackage(package, package, False)
-            else:
-                # Check to see if it's a github user/repo string
-                url = self.g.get_url(package)
-                if url is not None:
-                    return GitRepoPackage(package, url, False)
-                else:
-                    # Finally, see if it's already a cloned alt
-                    namecoupled = package.split('/')
-                    if len(namecoupled) == 2:
-                        filepath = "{0}/{1}".format(self.c.get('paths',
-                            'bank', True), namecoupled[1])
-                        if self.g.is_repo(filepath) and os.path.isfile(
-                                '{0}/.bank/{1}.py'.format(filepath,
-                                namecoupled[1])):
-                            return GitRepoPackage(package, filepath, True)
+            if self.g.get_url(package) is not None:
+                appname = package.split('/')[-1]
+                self.init_bank(package)
+                filename = "{0}/{1}/.bank/{2}.py".format(self.c.get('paths',
+                    'bank', True), self.GITHUBBANK, appname)
+                is os.path.isfile(filename):
+                    return kitten_importer(filename, 'bloodbank.{0}'.format(
+                        appname))
         return None
