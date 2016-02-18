@@ -4,7 +4,6 @@ import os.path
 import shutil
 from vamp.config import Config
 from vamp.git import Git
-from vamp.run import pager
 
 class Bank:
     __borg_state = {}
@@ -37,11 +36,11 @@ class Bank:
 
         if os.path.isdir(clone_to):
             if force:
-                pager("!! Bank directory exists, but overwriting because " + \
+                print("!! Bank directory exists, but overwriting because " + \
                         "of --force")
                 shutil.rmtree(clone_to)
                 self.g.clone(url, clone_to)
             else:
-                pager("!! Bank directory exists, using existing")
+                print("!! Bank directory exists, using existing")
         else:
             self.g.clone(url, clone_to)
