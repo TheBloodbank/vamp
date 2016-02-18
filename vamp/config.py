@@ -70,4 +70,4 @@ class Config:
     def save(self):
         """Save the config file."""
         with open(self.config_file, 'w') as cf:
-            json.dump(self.config, cf)
+            json.dump(self.config, cf, indent=2)
