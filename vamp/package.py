@@ -1,7 +1,7 @@
 from __future__ import print_function
 import sys
 from vamp.config import Config
-from vamp.bank import Bank
+from vamp.bank import Bank, BloodbankPackage, GitRepoPackage
 
 class PackageHandler:
     __borg_state = {}
@@ -16,7 +16,8 @@ class PackageHandler:
     def get_package(self, package):
         """Given a package name, will find the associated packae file in the
         bank and import it."""
-        pass
+        psource = self.b.identify_package(package)
+        print(psource)
 
     def install(self, package):
         """Installs a package."""

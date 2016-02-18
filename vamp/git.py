@@ -1,6 +1,7 @@
 from __future__ import print_function
 import subprocess
 import requests
+from subprocess import CalledProcessError
 from vamp.config import Config
 
 def check_git():
@@ -36,6 +37,25 @@ class Git:
             return j.get('clone_url', None)
         else:
             return None
+
+    def is_repo(self, url):
+        """Given a url, will check if it points to a valid Git repo.
+
+        'url' can be any URL that Git supports.
+        """
+        try:
+            subprocess.check_output(['git', 'ls-remote', url])
+            return True
+        except CalledProcessError as e:
+            if e.returncode != 128:
+                # No clue what happened here
+                print('Unexpected git error! Return code {0}'.format(
+                    e.returncode))
+                print(e.cmd)
+                print(e.output)
+                # I think an error message is sufficient, not sure we want
+                # this to block
+            return False
 
     def clone(self, url, dest):
         """Clones the git repo at 'url' to the path at 'dest'."""
