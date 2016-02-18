@@ -75,7 +75,7 @@ parser = argparse.ArgumentParser(
         description="The bleeding edge package manager",
         epilog="The command 'list' will list available commands")
 parser.add_argument("command", help="The command to run", nargs="?")
-parser.add_argument("subcommand", help="Optional sub-command.", nargs="?")
+parser.add_argument("option", help="Additional options.", nargs="?")
 parser.add_argument("-np", "--no-page", help="Disable paging", \
     action="store_true")
 parser.add_argument('-f', '--force', help='Force an action', \
@@ -91,9 +91,9 @@ def command_init():
             'paths' : False
         }
 
-    if args.subcommand in sub_systems:
-        sub_systems[args.subcommand] = True
-    elif args.subcommand is None:
+    if args.option in sub_systems:
+        sub_systems[args.option] = True
+    elif args.option is None:
         for k in sub_systems:
             sub_systems[k] = True
     else:
@@ -127,6 +127,10 @@ def command_init():
         print("> Initializing blood bank...")
         b = Bank()
         b.init_bank(bank=None, force=args.force)
+
+def command_install():
+    """Install a given package"""
+    pass
 
 def command_list():
     """Display the commands"""
@@ -166,8 +170,8 @@ commands = {
             'method' : command_init,
             'desc' : 'Initialize the system.',
             'help' : [
-                'Sub-commands:',
-                '-------------',
+                'Options:',
+                '--------',
                 '',
                 'all    : Initialize all sub-systems. This is the ' + \
                         'default behavior if no sub-command is specified',
@@ -179,6 +183,17 @@ commands = {
                 '   1) config',
                 '   2) paths',
                 '   3) bank'
+                ]
+        },
+        'install' : {
+            'method' : command_install,
+            'desc' : 'Install a package.',
+            'help' : [
+                'Will install a package specified by the "option" parameter.',
+                '',
+                'Usage:',
+                '------',
+                '   vamp install [package]'
                 ]
         },
         'help' : {
