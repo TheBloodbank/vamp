@@ -20,7 +20,6 @@ def kitten_importer(filename, modulename):
     if os.path.isfile(filename):
         if sys.version_info >= (2,5) and sys.version_info < (3,3):
             kitten = imp.load_source(modulename, filename)
-            print(dir(kitten))
             return kitten.Package()
         elif sys.version_info >= (3,3) and sys.version_info <= (3,4):
             kitten = SourceFileLoader(modulename, filename).load_module()
