@@ -116,7 +116,6 @@ class PackageHandler:
         ensure_path(indir)
         return indir
 
-
     def _install(self, package):
         """Installs a package."""
         pkg = self._get_package(package)
@@ -138,7 +137,7 @@ class PackageHandler:
                 self._cleanup(working_dir)
         else:
             print("!! Error installing package '{0}', problem with" + \
-                    "dependencies!")
+                    " dependencies!".format(package))
             sys.exit(1)
 
     def _find_build_deps(self, pkg):

@@ -144,8 +144,9 @@ def command_install():
     for l in lines:
         print(' ' * 5 + l)
     proceed = True
+    print()
     if len(deps) > 1:
-        print("\nProceed with install? (y/N) ", end="")
+        print("Proceed with install? (y/N) ", end="")
         c = getch()
         print()
         if c == "y" or c == "Y":
