@@ -83,6 +83,7 @@ class Bank:
         """
         if bank is None:
             for repo in self.m.get('bank', 'repos', {}):
+                print(repo)
                 if os.path.isdir(repo['dir']):
                     self.g.update(repo['dir'])
                 else:
