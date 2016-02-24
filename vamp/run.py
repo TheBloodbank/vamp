@@ -151,7 +151,7 @@ def command_list():
 
 def command_help():
     """Display the help system"""
-    if args.subcommand in commands:
+    if args.option in commands:
         pager(Style.BRIGHT + "SYNOPSIS" + RESET_TEXT)
         pager("   vamp {0}".format(args.subcommand))
         pager()
@@ -166,7 +166,8 @@ def command_help():
 
 def command_update():
     """Updates the bank repo(s)."""
-    pass
+    b = Bank()
+    b.update(self.option)
 
 commands = {
         'list' : {
