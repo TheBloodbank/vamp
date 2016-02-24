@@ -131,6 +131,7 @@ class PackageHandler:
                 'verbose'))
             if bins is None:
                 print("!! Error installing package '{0}'!".format(package))
+                print("!! No binaries specified!")
                 self._cleanup(working_dir)
                 self._cleanup(install_dir)
             else:
