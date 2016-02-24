@@ -208,6 +208,20 @@ commands = {
                 '   vamp install [package]'
                 ]
         },
+        'update' : {
+            'method' : command_update,
+            'desc' : 'Update the bank(s).',
+            'help' : [
+                'Will update a bank or all banks to their latest.',
+                '',
+                'Usage:',
+                '------',
+                '   vamp update <bank>',
+                '',
+                'Where <bank> is an optional bank to update. If <bank> is' + \
+                        'specified, all banks are updated.'
+                ]
+        },
         'help' : {
             'method' : command_help,
             'desc' : 'Display vamp command help.',
