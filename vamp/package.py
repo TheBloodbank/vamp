@@ -1,8 +1,11 @@
 from __future__ import print_function
 import sys
+import tempfile
+import shutil
 from vamp.config import Config
 from vamp.bank import Bank
 from vamp.manifest import Manifest
+from vamp.in_a_world import ensure_path
 
 class PackageBase:
     """The base definition of a package class."""
@@ -61,6 +64,7 @@ class PackageHandler:
         self.m = Manifest()
         self.cache = {}
         self._installed = {}
+        self._working_dirs = set()
 
     def _check_deps(self, pkg):
         """Checks that the dependencies are installed for a package."""
@@ -86,6 +90,32 @@ class PackageHandler:
             p = self.b.get_package(package)
             self.cache[package] = p
             return p
+
+    def _cleanup(self, directory):
+        """Given a directory, clean it up without prejudice.
+
+        Will only clean up directries in the vamp infrastructure."""
+        if directory in self._working_dirs:
+            shutil.rmtree(directory)
+            self._working_dirs.remove(directory)
+        else:
+            raise OSError("Error! Attempt to remove directory outside of vamp" + \
+                    "infrastructure! '{0}'".format(directory))
+
+    def _get_workdir(self, package):
+        """Given a package name, get a working directory for it."""
+        wdir = tempfile(prefix=package)
+        self._working_dirs.add(wdir)
+        ensure_path(wdir)
+        return wdir
+
+    def _get_installdir(self, package):
+        """Given a package name, get the installation directory for it."""
+        indir = "{0}/{1}".format(self.c.get('paths', 'install', True), package)
+        self._working_dirs.add(indir)
+        ensure_path(indir)
+        return indir
+
 
     def _install(self, package):
         """Installs a package."""
@@ -128,3 +158,11 @@ class PackageHandler:
         # Pre-cache the installed packages
         self._installed = self.m.get('PackageHandler', 'installed')
         return list(set(self._find_build_deps(pkg)))
+
+    def install(self, packages):
+        """Given a list of packages, install them.
+
+        If the list is not dependency resolved, you will probably get errors
+        on install."""
+        for p in packages:
+            self._install(p)

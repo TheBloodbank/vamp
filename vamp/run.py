@@ -154,7 +154,7 @@ def command_install():
             proceed = False
 
     if proceed:
-        ph.install(args.option)
+        ph.install(deps)
 
 def command_list():
     """Display the commands"""
