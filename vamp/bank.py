@@ -67,3 +67,28 @@ class Bank:
                     return kitten_importer(filename, 'bloodbank.{0}'.format(
                         appname))
         return None
+
+    def _inner_update(self, bank=None):
+        """Update a bank.
+
+        'bank' should be a string of the format 'user/repo'.
+
+        If 'bank' is none, will update the bloodbank repo.
+        """
+        repo_path = None
+        if bank is None:
+            repo_path = '{0}/{1}'.format(self.c.get('paths', 'bank'),
+                    self.BLOODBANK)
+        else:
+            repo_path = '{0}/{1}/{2}'.format(self.c.get('paths', 'bank'),
+                    self.GITHUBBANK, bank)
+
+        if repo_path is not None:
+            if os.path.isdir(repo_path):
+                pass
+            else:
+                print("Error! No bank found at '{0}'!".format(repo_path))
+                sys.exit(1)
+        else:
+            print("Error! Malformed bank '{0}'!".format(bank))
+            sys.exit(1)

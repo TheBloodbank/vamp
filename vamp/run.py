@@ -163,6 +163,10 @@ def command_help():
     else:
         parser.print_usage()
 
+def command_update():
+    """Updates the bank repo(s)."""
+    pass
+
 commands = {
         'list' : {
             'method' : command_list,
