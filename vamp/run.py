@@ -153,13 +153,13 @@ def command_help():
     """Display the help system"""
     if args.option in commands:
         pager(Style.BRIGHT + "SYNOPSIS" + RESET_TEXT)
-        pager("   vamp {0}".format(args.subcommand))
+        pager("   vamp {0}".format(args.option))
         pager()
         pager(Style.BRIGHT + "DESCRIPTION" + RESET_TEXT)
-        page_multiline(commands[args.subcommand]['desc'], 3)
+        page_multiline(commands[args.option]['desc'], 3)
         pager()
         pager(Style.BRIGHT + "FULL HELP" + RESET_TEXT)
-        for l in commands[args.subcommand]['help']:
+        for l in commands[args.option]['help']:
             page_multiline(l, 3)
     else:
         parser.print_usage()
