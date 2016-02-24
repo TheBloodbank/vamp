@@ -2,6 +2,7 @@ from __future__ import print_function
 import sys
 import shutil
 import time
+import os.path
 from vamp.config import Config
 from vamp.manifest import Manifest
 from vamp.git import Git
