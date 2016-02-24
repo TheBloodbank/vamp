@@ -104,7 +104,7 @@ class PackageHandler:
 
     def _get_workdir(self, package):
         """Given a package name, get a working directory for it."""
-        wdir = tempfile(prefix=package)
+        wdir = tempfile.mkdtemp(prefix=package)
         self._working_dirs.add(wdir)
         ensure_path(wdir)
         return wdir
