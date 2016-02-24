@@ -16,4 +16,4 @@ class PackageHandler:
     def install(self, package):
         """Installs a package."""
         package = self.b.get_package(package)
-        print(type(package))
+        package.test()
