@@ -136,7 +136,7 @@ class PackageHandler:
             else:
                 self._cleanup(working_dir)
         else:
-            print("Error installing package '{0}'".format(package) + \
+            print("!! Error installing package '{0}'".format(package) + \
                     ", problem with dependencies!")
             sys.exit(1)
 
