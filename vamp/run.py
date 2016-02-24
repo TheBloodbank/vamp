@@ -167,7 +167,7 @@ def command_help():
 def command_update():
     """Updates the bank repo(s)."""
     b = Bank()
-    b.update(self.option)
+    b.update(args.option)
 
 commands = {
         'list' : {
