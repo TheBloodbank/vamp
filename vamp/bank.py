@@ -81,19 +81,19 @@ class Bank:
 
         If 'bank' is none, will update all repos.
         """
+        repos = self.m.get('bank', 'repos', {})
         if bank is None:
-            for repo in self.m.get('bank', 'repos', {}):
-                print(repo)
-                if os.path.isdir(repo['dir']):
-                    self.g.update(repo['dir'])
+            for repo in repos:
+                if os.path.isdir(repos[repo]['dir']):
+                    self.g.update(repos[repo]['dir'])
                 else:
                     print("Error! No bank found at '{0}', yet manifest " +
-                          "reports one there!".format(repo['dir']))
+                          "reports one there!".format(repos[repo]['dir']))
                     # FIXME : Would be nice to suggest a way to fix this
                     sys.exit(1)
         else:
-            if bank in self.m.get('bank', 'repos', {}):
-                repo = self.m.get('bank', 'repos')
+            if bank in repos:
+                repo = repos[bank]
                 if os.path.isdir(repo['dir']):
                     self.g.update(repo['dir'])
                 else:
