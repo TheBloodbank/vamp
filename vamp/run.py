@@ -137,7 +137,18 @@ def command_install():
         print("See help for 'install'!")
         sys.exit(1)
     ph = PackageHandler()
-    ph.install(args.option)
+    deps = ph.build_deps(args.option)
+    line_len = MAX_PAGE_WIDTH - 5
+    lines = textwrap.wrap(' '.join(deps), line_len)
+    print(Style.BRIGHT + "PACKAGES TO INSTALL:" + RESET_TEXT)
+    for l in lines:
+        print(' ' * 5 + l)
+    if len(deps) > 1:
+        print("\nProceed with install? (y/N) ", end="")
+        c = getch()
+        print()
+        if c == "y" or c == "Y":
+            ph.install(args.option)
 
 def command_list():
     """Display the commands"""
