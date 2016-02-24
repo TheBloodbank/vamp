@@ -31,6 +31,7 @@ from vamp.config import Config
 from vamp.git import check_git
 from vamp.bank import Bank
 from vamp.package import PackageHandler
+from vamp.manifest import Manifest
 
 # UI setup
 MAX_PAGE_LINES = get_max_lines()
@@ -226,9 +227,11 @@ def run():
         print("Please ensure you have git installed!")
         sys.exit(1)
 
+    m = Manifest()
     if args.command in commands:
         commands[args.command]['method']()
     else:
         print("Valid command required!")
         parser.print_usage()
         sys.exit(1)
+    m.save()

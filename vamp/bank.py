@@ -1,6 +1,5 @@
 from __future__ import print_function
 import sys
-import os.path
 import shutil
 from vamp.config import Config
 from vamp.git import Git
