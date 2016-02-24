@@ -1,7 +1,9 @@
 from __future__ import print_function
 import sys
 import shutil
+import time
 from vamp.config import Config
+from vamp.manifest import Manifest
 from vamp.git import Git
 from vamp.kittening_importer import kitten_importer
 
@@ -15,6 +17,7 @@ class Bank:
 
         self.c = Config()
         self.g = Git()
+        self.m = Manifest()
 
     def init_bank(self, bank=None, force=False):
         """Initializes a bank.
@@ -49,6 +52,9 @@ class Bank:
         else:
             self.g.clone(url, clone_to)
 
+        self.m.set('bank', 'repos', { bank :
+            { 'url' : url, 'dir' : clone_to, 'lastup' : time.time() } })
+
     def get_package(self, package):
         """Given a package name, import the package object and return it."""
         # We have to run through a number of sources to get the package
@@ -67,27 +73,31 @@ class Bank:
                         appname))
         return None
 
-    def _inner_update(self, bank=None):
+    def update(self, bank=None):
         """Update a bank.
 
         'bank' should be a string of the format 'user/repo'.
 
-        If 'bank' is none, will update the bloodbank repo.
+        If 'bank' is none, will update all repos.
         """
-        repo_path = None
         if bank is None:
-            repo_path = '{0}/{1}'.format(self.c.get('paths', 'bank'),
-                    self.BLOODBANK)
+            for repo in self.m.get('bank', 'repos', {}):
+                if os.path.isdir(repo['dir']):
+                    self.g.update(repo['dir'])
+                else:
+                    print("Error! No bank found at '{0}', yet manifest " +
+                          "reports one there!".format(repo['dir']))
+                    # FIXME : Would be nice to suggest a way to fix this
+                    sys.exit(1)
         else:
-            repo_path = '{0}/{1}/{2}'.format(self.c.get('paths', 'bank'),
-                    self.GITHUBBANK, bank)
-
-        if repo_path is not None:
-            if os.path.isdir(repo_path):
-                pass
+            if bank in self.m.get('bank', 'repos', {}):
+                repo = self.m.get('bank', 'repos')
+                if os.path.isdir(repo['dir']):
+                    self.g.update(repo['dir'])
+                else:
+                    print("Error! No bank found at '{0}, yet manifest " +
+                          "reports one there!".format(repo['dir']))
+                    # FIXME : Same as above
+                    sys.exit(1)
             else:
-                print("Error! No bank found at '{0}'!".format(repo_path))
-                sys.exit(1)
-        else:
-            print("Error! Malformed bank '{0}'!".format(bank))
-            sys.exit(1)
+                print("Error! Bank '{0}' not found in manifest!".format(bank))

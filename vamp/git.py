@@ -64,3 +64,10 @@ class Git:
         r = subprocess.check_output(['git', 'clone', url, dest])
         if self.c.get('globals', 'verbose', False):
             print(r)
+
+    def update(self, dest):
+        """Updates the git repo at 'dest'."""
+        print("> Updating '{0}'...".format(dest))
+        r = subprocess.check_output(['git', '-C', dest, 'pull'])
+        if self.c.get('globals', 'verbose', False):
+            print(r)
