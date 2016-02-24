@@ -62,7 +62,7 @@ class Bank:
         filename = '{0}/{1}/.bank/{2}.py'.format(self.c.get('paths',
             'bank', True), self.BLOODBANK, package)
         if os.path.isfile(filename):
-            return kitten_importer(filename, 'bloodbank.{0}'.format(package))
+            return kitten_importer(filename, package)
         else:
             if self.g.get_url(package) is not None:
                 appname = package.split('/')[-1]
@@ -70,8 +70,7 @@ class Bank:
                 filename = "{0}/{1}/.bank/{2}.py".format(self.c.get('paths',
                     'bank', True), self.GITHUBBANK, appname)
                 if os.path.isfile(filename):
-                    return kitten_importer(filename, 'bloodbank.{0}'.format(
-                        appname))
+                    return kitten_importer(filename, appname)
         return None
 
     def update(self, bank=None):
