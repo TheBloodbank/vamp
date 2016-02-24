@@ -143,12 +143,18 @@ def command_install():
     print(Style.BRIGHT + "PACKAGES TO INSTALL:" + RESET_TEXT)
     for l in lines:
         print(' ' * 5 + l)
+    proceed = True
     if len(deps) > 1:
         print("\nProceed with install? (y/N) ", end="")
         c = getch()
         print()
         if c == "y" or c == "Y":
-            ph.install(args.option)
+            proceed = True
+        else:
+            proceed = False
+
+    if proceed:
+        ph.install(args.option)
 
 def command_list():
     """Display the commands"""
