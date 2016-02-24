@@ -12,7 +12,7 @@ class Manifest:
         self.manifest = {}
         self.manifest_file = get_manifest_file()
 
-        if os.path.isfule(self.manifest_file):
+        if os.path.isfile(self.manifest_file):
             with open(self.manifest_file, 'r') as f:
                 self.manifest = json.load(f)
         else:
